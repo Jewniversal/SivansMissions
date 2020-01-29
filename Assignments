@@ -1,10 +1,10 @@
 1. Fix linting, Download and define ESLINT
 
-2. Change to Async Await all of the asynchrones functions
+2. Change to Async Await all of the asynchrones functions ✓
 
 3. Connect REDUX
 
-4. Transfer to app to functional App.
+4. Transfer to app to functional App. 
 
 5. const App = () => {
   const [todos, setTodos] = useState([]);
@@ -14,7 +14,7 @@
     return () => {
     }
     // dependencies
-  }, [])
+  }, []) ✓
 
 
   Use, useEffect to run 'componentDidMount' once the app loads.

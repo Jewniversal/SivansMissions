@@ -1,51 +1,50 @@
-import React, { Component } from 'react';
-import axios from 'axios'
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useState } from 'react';
+import propTypes from 'prop-types';
+import axios from 'axios';
 
-class AddTodo extends Component {
-  state = {
-    title: '',
-    content:''
-  }
-  handleTitleChange = (event) => {
-    this.setState({
-      title: event.target.value,
-      content: this.state.content
-    })
-  }
-  handleContentChange = (event) => {
-    this.setState({
-      title: this.state.title,
-      content: event.target.value
-    })
-  }
-  postItem = (item) => {
-    axios.post('/api/items',item).then(res=>{
-    })
-  }
-  handleSubmit = (event) => {
+const AddTodo = ({ handleSend }) => {
+  const [title, setTitle] = useState();
+  const [content, setContent] = useState();
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+    setContent(setContent);
+  };
+  const handleContentChange = (event) => {
+    setTitle(title);
+    setContent(event.target.value);
+  };
+  const postItem = async (item) => {
+    await axios.post('/api/items', item);
+  };
+  const handleSubmit = (event) => {
     event.preventDefault();
-    this.postItem(this.state);
-    if(this.state.title !== ''){
-      this.props.AddTodo(this.state)
+    postItem({ title, content });
+    if (title !== '') {
+      handleSend({ title, content });
     }
-    this.setState({title: '', content: ''})
-  }
+    setTitle('');
+    setContent('');
+  };
 
-  render() {
-    return(
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>Add new mission:</label>
-          <input type="text" onChange={this.handleTitleChange} value={this.state.title} />
-        </form>
-        <form onSubmit={this.handleSubmit}>
-          <label>Mission Report:</label>
-          <input type="text" onChange={this.handleContentChange} value={this.state.content}/>
-          <button className="btn waves-effect waves-light" type="submit" name="action">Add Mission</button>
-        </form>
-      </div>
-    )
-  }
-}
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>Add new mission:</label>
+        <input type="text" onChange={handleTitleChange} value={title || ''} />
+      </form>
+      <form onSubmit={handleSubmit}>
+        <label>Mission Report:</label>
+        <input type="text" onChange={handleContentChange} value={content || ''} />
+        <button className="btn waves-effect waves-light" type="submit" name="action">Add Mission</button>
+      </form>
+    </div>
+  );
+};
 
-export default AddTodo
+AddTodo.propTypes = {
+  handleSend: propTypes.func.isRequired,
+};
+
+export default AddTodo;
