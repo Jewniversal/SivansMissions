@@ -1,44 +1,29 @@
-
-import transform from 'css-to-react-native';
+import axios from 'axios';
 import propTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { getItems } from '../actions/itemAction';
 
-// eslint-disable-next-line no-unused-vars
-const divStle = {
-	wordWrap: 'break-word'
-};
-const pre =  [
-	['background', '#f4f4f4'],
-	['border', '1px solid #ddd'],
-	['border-left', '3px solid #f36d33'],
-	['color', '#666'],
-	['page-break-inside','avoid'],
-	['font-family','monospace'],
-	['font-size','15px'],
-	['line-height','1.6'],
-	['margin-bottom','1.6em'],
-	['max-width','100%'],
-	['overflow','auto'],
-	['display','block'],
-	['padding','1em 1.5em'],
-	['word-wrap','break-word'],
-
-];
-
-const newStyle = transform(pre);
-
-const Todos = ({ todos, deleteTodo }) => {
-
-	const todoList = todos.length ? (
+const Todos = ({ deleteTodo }) => {
+	const [todos, setTodos] = useState([]);
+	useEffect(() => {
+		console.log('LOL');
+		getItems();
+  		(async () => {
+			const response = await axios.get('/api/items');
+			setTodos(response.data);
+		})();
+		return () => {};
+	},[]);
+	console.log(todos);
+	const todoList = todos.length? (
 		todos.map((todo) => (
-			<div className="collection-item row" key={todo._id}S>
+			<div className="collection-item" key={todo._id}>
 				<h6>Mission:</h6>
-				<text>{todo.title}</text>
+				<samp>{todo.title}</samp>
 				<button onClick={() => { deleteTodo(todo); }} className="btn waves-effect waves-light" style={{ float: 'right' }} type="submit" name="action">delete</button>
 				<h6>Mission Report:</h6>
-				<div className="card-panel grey darken-2" style={newStyle}>
-					<blockquote className="white-text text-light-green lighten-1">{todo.content}</blockquote>
-				</div>
+				<code>{todo.content}</code>
 			</div>
 		))
 	) : (
@@ -50,8 +35,8 @@ const Todos = ({ todos, deleteTodo }) => {
 		</div>
 	);
 };
+
 Todos.propTypes = {
-	todos: propTypes.object.isRequired,
-	deleteTodo: propTypes.func.isRequired
+	deleteTodo: propTypes.func.isRequired,
 };
-export default Todos;
+export default connect(null, { getItems })(Todos);
