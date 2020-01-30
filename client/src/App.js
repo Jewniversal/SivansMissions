@@ -18,7 +18,8 @@ const App = () => {
     */
 	]);
 	const getItems = async () => {
-		const { res } = await axios.get('/api/items');
+		const res  = await axios.get('/api/items');
+		console.log(res)
 		setTodos(res.data);
 	};
 	const deleteItem = async (id) => {

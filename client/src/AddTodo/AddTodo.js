@@ -1,6 +1,7 @@
 import axios from 'axios';
 import propTypes from 'prop-types';
 import React, { useState } from 'react';
+import { TextField } from '@material-ui/core'
 
 const AddTodo = ({ handleSend }) => {
 	const [title, setTitle] = useState();
@@ -26,12 +27,16 @@ const AddTodo = ({ handleSend }) => {
 		setTitle('');
 		setContent('');
 	};
+	const inputProps = {
+		multiline: true,
+		fullWidth: true,
+	}
 
 	return (
-		<div>
-			<form onSubmit={handleSubmit}>
+		<div >
+			<form  onSubmit={handleSubmit} style={{flexDirection:'row', flex: 1, flexWrap: 'wrap'}}>
 				<label>Add new mission:</label>
-				<input type="text" onChange={handleTitleChange} value={title || ''} />
+				<input  className="flow-text" type="text" onChange={handleTitleChange} value={title || ''}  />
 			</form>
 			<form onSubmit={handleSubmit}>
 				<label>Mission Report:</label>
