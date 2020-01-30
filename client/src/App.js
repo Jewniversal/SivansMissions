@@ -19,18 +19,15 @@ const App = () => {
 	]);
 	const getItems = async () => {
 		const res  = await axios.get('/api/items');
-		console.log(res)
+		console.log(res);
 		setTodos(res.data);
 	};
 	const deleteItem = async (id) => {
-		console.log(id);
-		const { res } = await axios.delete(`/api/items/${id}`);
-		console.log(res);
+		await axios.delete(`/api/items/${id}`);
+		getItems();
 	};
 	const deleteTodo = (todo) => {
-		console.log(todo._id);
 		deleteItem(todo._id);
-		getItems();
 	};
 	const addTodo = (todo) => {
 		/* If the new state is computed using the previous state,
@@ -44,7 +41,7 @@ const App = () => {
 	return (
 		<div className="todo=app container">
 			<h1 className="center blue-text">Allmighty Chunts Missions </h1>
-			<AddTodo handleSend={addTodo} />
+			<AddTodo handleSend={getItems} />
 			<Todos todos={todos} deleteTodo={deleteTodo} />
 		</div>
 	);

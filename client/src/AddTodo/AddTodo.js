@@ -1,7 +1,6 @@
 import axios from 'axios';
 import propTypes from 'prop-types';
 import React, { useState } from 'react';
-import { TextField } from '@material-ui/core'
 
 const AddTodo = ({ handleSend }) => {
 	const [title, setTitle] = useState();
@@ -22,15 +21,11 @@ const AddTodo = ({ handleSend }) => {
 		event.preventDefault();
 		postItem({ title, content });
 		if (title !== '') {
-			handleSend({ title, content });
+			handleSend();
 		}
 		setTitle('');
 		setContent('');
 	};
-	const inputProps = {
-		multiline: true,
-		fullWidth: true,
-	}
 
 	return (
 		<div >

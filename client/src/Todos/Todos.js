@@ -1,13 +1,15 @@
 
-import React from 'react';
 import transform from 'css-to-react-native';
+import propTypes from 'prop-types';
+import React from 'react';
 
+// eslint-disable-next-line no-unused-vars
 const divStle = {
 	wordWrap: 'break-word'
-}
+};
 const pre =  [
-    ['background', '#f4f4f4'],
-    ['border', '1px solid #ddd'],
+	['background', '#f4f4f4'],
+	['border', '1px solid #ddd'],
 	['border-left', '3px solid #f36d33'],
 	['color', '#666'],
 	['page-break-inside','avoid'],
@@ -21,21 +23,13 @@ const pre =  [
 	['padding','1em 1.5em'],
 	['word-wrap','break-word'],
 
-]
+];
 
-const newStyle = transform(pre)
-/*
-const pre = [
-    : ;
-    padding: ;
-    display: block;
-    word-wrap: break-word;
-] */
+const newStyle = transform(pre);
 
 const Todos = ({ todos, deleteTodo }) => {
 
-
-	const todoList = todos.length? (
+	const todoList = todos.length ? (
 		todos.map((todo) => (
 			<div className="collection-item row" key={todo._id}S>
 				<h6>Mission:</h6>
@@ -55,5 +49,9 @@ const Todos = ({ todos, deleteTodo }) => {
 			{todoList}
 		</div>
 	);
+};
+Todos.propTypes = {
+	todos: propTypes.object.isRequired,
+	deleteTodo: propTypes.func.isRequired
 };
 export default Todos;

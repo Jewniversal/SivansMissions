@@ -37,7 +37,8 @@ router.post('/', async (req, res) => {
 // @ desc delete a item
 // @acces Public
 router.delete('/:id', async (req, res) => {
-	console.log('cunt');
+  console.log('cunt');
+  console.log(req.params)
   const item = await Item.findById(req.params.id);
   try{
     await item.remove();
