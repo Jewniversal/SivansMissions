@@ -5,7 +5,6 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { deleteTodoAction, getTodosAction } from '../redux';
 
 const Todos = () => {
-	// const [todos, setTodos] = useState([]);
 	const todos = useSelector(state => state).todos;
 	const dispatch = useDispatch();
 	const getItems = async () => {
