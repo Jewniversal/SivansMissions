@@ -1,27 +1,30 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import axios from 'axios';
 import propTypes from 'prop-types';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addTodoAction } from '../redux';
 
-const AddTodo = ({ handleSend }) => {
+const AddTodo = () => {
 	const [title, setTitle] = useState();
 	const [content, setContent] = useState();
 
+	const dispatch = useDispatch();
+
 	const handleTitleChange = (event) => {
 		setTitle(event.target.value);
-		setContent(setContent);
 	};
 	const handleContentChange = (event) => {
-		setTitle(title);
 		setContent(event.target.value);
 	};
 	const postItem = async (item) => {
-		await axios.post('/api/items', item);
+		const post = await axios.post('/api/items', item);
+		return dispatch(addTodoAction(post.data));
 	};
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		postItem({ title, content });
 		if (title !== '') {
-			handleSend();
+			postItem({ title, content });
 		}
 		setTitle('');
 		setContent('');

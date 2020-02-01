@@ -1,27 +1,33 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import axios from 'axios';
-import propTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { getItems } from '../actions/itemAction';
+import React, { useEffect } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { deleteTodoAction, getTodosAction } from '../redux';
 
-const Todos = ({ deleteTodo }) => {
-	const [todos, setTodos] = useState([]);
+const Todos = () => {
+	// const [todos, setTodos] = useState([]);
+	const todos = useSelector(state => state).todos;
+	const dispatch = useDispatch();
+	const getItems = async () => {
+		const response = await axios.get('/api/items');
+		return dispatch(getTodosAction(response.data));
+	};
+
+	const deleteItem = async (todo) => {
+		await axios.delete(`/api/items/${todo._id}`);
+		return dispatch(deleteTodoAction(todo));
+	};
+
 	useEffect(() => {
-		console.log('LOL');
 		getItems();
-  		(async () => {
-			const response = await axios.get('/api/items');
-			setTodos(response.data);
-		})();
 		return () => {};
 	},[]);
-	console.log(todos);
 	const todoList = todos.length? (
 		todos.map((todo) => (
 			<div className="collection-item" key={todo._id}>
 				<h6>Mission:</h6>
 				<samp>{todo.title}</samp>
-				<button onClick={() => { deleteTodo(todo); }} className="btn waves-effect waves-light" style={{ float: 'right' }} type="submit" name="action">delete</button>
+				<button onClick={() => deleteItem(todo)} className="btn waves-effect waves-light" style={{ float: 'right' }} type="submit" name="action">delete</button>
 				<h6>Mission Report:</h6>
 				<code>{todo.content}</code>
 			</div>
@@ -36,7 +42,4 @@ const Todos = ({ deleteTodo }) => {
 	);
 };
 
-Todos.propTypes = {
-	deleteTodo: propTypes.func.isRequired,
-};
-export default connect(null, { getItems })(Todos);
+export default connect()(Todos);
