@@ -6,6 +6,18 @@
 
 4. Connect REDUX ✔
 
+4.1 Write my own createStore function ✔
+
 5. Read about text wrapping ✔
 
-6. Read about Markdown  https://medium.com/young-developer/react-markdown-code-and-syntax-highlighting-632d2f9b4ada
+6. Read about Markdown
+   https://medium.com/young-developer/react-markdown-code-and-syntax-highlighting-632d2f9b4ada
+
+7. Add 'thunk' for API requests in REDUX
+
+8. Add Home Screen page
+
+9. Add 'todo' assingment component
+
+10. Finish watching Dan Abramov Redux tutorial //
+    https://egghead.io/lessons/react-redux-writing-a-counter-reducer-with-tests

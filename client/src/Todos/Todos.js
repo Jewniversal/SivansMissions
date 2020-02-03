@@ -2,7 +2,7 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { deleteTodoAction, getTodosAction } from '../redux';
+import { deleteTodoAction, getTodosAction, store } from '../redux';
 
 const Todos = () => {
 	const todos = useSelector(state => state).todos;
@@ -18,6 +18,7 @@ const Todos = () => {
 	};
 
 	useEffect(() => {
+		console.log(store);
 		getItems();
 		return () => {};
 	},[]);

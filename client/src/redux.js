@@ -1,4 +1,4 @@
-import { createStore } from 'redux';
+// import { createStore } from 'redux';
 
 
 
@@ -25,6 +25,27 @@ const reducer = (state, action) => {
 	default:
 		return state;
 	}
+};
+const createStore = (reducer, initialState) => {
+	let state = initialState;
+	let listeners = [];
+
+	const getState = () => state;
+
+	const dispatch = (action) => {
+		state = reducer(state, action);
+		listeners.forEach(listener => listener());
+	};
+
+	const subscribe = (listener) => {
+		listeners.push(listener);
+		return () => {
+			listeners = listeners.filter(subScribedListener => subScribedListener !== listener);
+		};
+	};
+	dispatch({});
+	return { getState, dispatch, subscribe };
+
 };
 
 export const store = createStore(
