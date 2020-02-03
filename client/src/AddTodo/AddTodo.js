@@ -1,9 +1,8 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import axios from 'axios';
 import propTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTodoAction } from '../redux';
+import { addAsyncTodoAction } from '../redux';
 
 const AddTodo = () => {
 	const [title, setTitle] = useState();
@@ -17,14 +16,11 @@ const AddTodo = () => {
 	const handleContentChange = (event) => {
 		setContent(event.target.value);
 	};
-	const postItem = async (item) => {
-		const post = await axios.post('/api/items', item);
-		return dispatch(addTodoAction(post.data));
-	};
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		if (title !== '') {
-			postItem({ title, content });
+			dispatch(addAsyncTodoAction({ title, content }));
 		}
 		setTitle('');
 		setContent('');

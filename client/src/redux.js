@@ -1,11 +1,12 @@
-// import { createStore } from 'redux';
-
-
+import axios from 'axios';
+import { applyMiddleware, createStore } from 'redux';
+import thunk from 'redux-thunk';
 
 const initialState = {
 	todos: []
 };
 const reducer = (state, action) => {
+	console.log(action.type);
 	switch(action.type) {
 	case 'ADD_TODO':
 		return {
@@ -26,6 +27,66 @@ const reducer = (state, action) => {
 		return state;
 	}
 };
+
+export const store = createStore(
+	reducer,
+	initialState,
+	applyMiddleware(thunk),
+);
+
+// ACTIONS
+
+const addTodoAction = (todo) => ({
+	type:'ADD_TODO',
+	payload: todo
+});
+
+const getTodosAction = (todos) => {
+	return {
+		type: 'GET_TODOS',
+		payload: todos
+	};
+};
+const deleteTodoAction = todo => {
+	return {
+		type: 'DELETE_TODO',
+		payload: todo._id
+	};
+};
+
+export const getAsyncTodosAction = () => {
+	return async (dispatch) => {
+		const response = await axios.get('/api/items');
+		dispatch(getTodosAction(response.data));
+	} ;
+};
+
+export const deleteAsyncTodoAction = (todo) => {
+	return async (dispatch) => {
+		await axios.delete(`/api/items/${todo._id}`);
+		dispatch(deleteTodoAction(todo));
+	};
+};
+
+export const addAsyncTodoAction = (item) => {
+	return async (dispatch) => {
+		const post = await axios.post('/api/items', item);
+		dispatch(addTodoAction(post.data));
+	};
+};
+
+
+
+
+
+
+
+
+
+
+
+// MY OWN cREATE STORE
+/*
 const createStore = (reducer, initialState) => {
 	let state = initialState;
 	let listeners = [];
@@ -47,29 +108,4 @@ const createStore = (reducer, initialState) => {
 	return { getState, dispatch, subscribe };
 
 };
-
-export const store = createStore(
-	reducer,
-	initialState,
-	window.devToolsExtension && window.devToolsExtension()
-);
-
-// ACTIONS
-
-export const addTodoAction = (todo) => ({
-	type:'ADD_TODO',
-	payload: todo
-});
-
-export const getTodosAction = (todos) => {
-	return {
-		type: 'GET_TODOS',
-		payload: todos
-	};
-};
-export const deleteTodoAction = todo => {
-	return {
-		type: 'DELETE_TODO',
-		payload: todo._id
-	};
-};
+*/

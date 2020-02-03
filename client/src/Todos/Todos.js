@@ -1,25 +1,15 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import axios from 'axios';
 import React, { useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { deleteTodoAction, getTodosAction, store } from '../redux';
+import { deleteAsyncTodoAction, getAsyncTodosAction, store } from '../redux';
 
 const Todos = () => {
 	const todos = useSelector(state => state).todos;
 	const dispatch = useDispatch();
-	const getItems = async () => {
-		const response = await axios.get('/api/items');
-		return dispatch(getTodosAction(response.data));
-	};
-
-	const deleteItem = async (todo) => {
-		await axios.delete(`/api/items/${todo._id}`);
-		return dispatch(deleteTodoAction(todo));
-	};
-
+ 
 	useEffect(() => {
 		console.log(store);
-		getItems();
+		dispatch(getAsyncTodosAction());
 		return () => {};
 	},[]);
 	const todoList = todos.length? (
@@ -27,7 +17,7 @@ const Todos = () => {
 			<div className="collection-item" key={todo._id}>
 				<h6>Mission:</h6>
 				<samp>{todo.title}</samp>
-				<button onClick={() => deleteItem(todo)} className="btn waves-effect waves-light" style={{ float: 'right' }} type="submit" name="action">delete</button>
+				<button onClick={() => dispatch(deleteAsyncTodoAction(todo))} className="btn waves-effect waves-light" style={{ float: 'right' }} type="submit" name="action">delete</button>
 				<h6>Mission Report:</h6>
 				<code>{todo.content}</code>
 			</div>
