@@ -13,7 +13,7 @@ const Item = require('../../models/item');
 router.get('/',async  (req, res)=>{
 	// Item.find().sort({date: 1}).then(items => res.json(items))
 	const items = await Item.find().sort({date: 1});
-	res.json(items);
+	res.json(items)
 });
 
 /**
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
 // @ desc delete a item
 // @acces Public
 router.delete('/:id', async (req, res) => {
-  console.log('cunt');
+  console.log('item deleted pleb');
   console.log(req.params)
   const item = await Item.findById(req.params.id);
   try{

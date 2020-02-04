@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import AddTodo from './AddTodo/AddTodo';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Navigator from './Navigator/Navigator';
 import { store } from './redux';
 import Todos from './Todos/Todos';
 
@@ -8,11 +9,13 @@ const App = () => {
 
 	return (
 		<Provider store={store}>
-			<div className="todo=app container">
-				<h1 className="center blue-text">Allmighty Chunts Missions </h1>
-				<AddTodo />
-				<Todos />
-			</div>
+			<Router>
+				<div className="todo=app container">
+					<Navigator />
+					<Route path="/react" component={Todos} />
+					<Route path="/C" component={Todos} />
+				</div>
+			</Router>
 		</Provider>
 	);
 };

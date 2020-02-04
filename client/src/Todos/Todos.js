@@ -1,12 +1,14 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable no-mixed-spaces-and-tabs */
 import React, { useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
+import AddTodo from '../AddTodo/AddTodo';
 import { deleteAsyncTodoAction, getAsyncTodosAction, store } from '../redux';
 
 const Todos = () => {
-	const todos = useSelector(state => state).todos;
+	const todos = useSelector(({ todos }) => todos);
 	const dispatch = useDispatch();
- 
+
 	useEffect(() => {
 		console.log(store);
 		dispatch(getAsyncTodosAction());
@@ -26,8 +28,11 @@ const Todos = () => {
 		<p className="center"> You have no missions registered </p>
 	);
 	return (
-		<div className="todos collection">
-			{todoList}
+		<div>
+			<AddTodo />
+			<div className="todos collection">
+				{todoList}
+			</div>
 		</div>
 	);
 };
