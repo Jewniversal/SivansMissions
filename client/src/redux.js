@@ -3,10 +3,12 @@ import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
 const initialState = {
-	todos: []
+	todos: [],
+	stateTitle: 'C'
 };
 const reducer = (state, action) => {
 	console.log(action.type);
+	console.log(action.payload);
 	switch(action.type) {
 	case 'ADD_TODO':
 		return {
@@ -22,6 +24,11 @@ const reducer = (state, action) => {
 		return {
 			...state,
 			todos: state.todos.filter(todo => todo._id !== action.payload)
+		};
+	case 'CHANGE_TITLE':
+		return {
+			...state,
+			stateTitle: action.payload
 		};
 	default:
 		return state;
@@ -53,22 +60,36 @@ const deleteTodoAction = todo => {
 		payload: todo._id
 	};
 };
+export const changeStateTitle = title => {
+	return {
+		type: 'CHANGE_TITLE',
+		payload: title
+	};
+};
 
-export const getAsyncTodosAction = () => {
+export const getAsyncTodosAction = (collectionName) => {
 	return async (dispatch) => {
-		const response = await axios.get('/api/items');
+		const collection = {
+			collectionName: collectionName
+		};
+		const response = await axios.get('/api/items', { params: collection });
 		dispatch(getTodosAction(response.data));
 	} ;
 };
 
-export const deleteAsyncTodoAction = (todo) => {
+export const deleteAsyncTodoAction = (todo,collectionName) => {
 	return async (dispatch) => {
-		await axios.delete(`/api/items/${todo._id}`);
+		const collection = {
+			collectionName: collectionName,
+			todoId: todo._id
+		};
+		await axios.delete('/api/items/', { params : collection});
 		dispatch(deleteTodoAction(todo));
 	};
 };
 
 export const addAsyncTodoAction = (item) => {
+	console.log(item);
 	return async (dispatch) => {
 		const post = await axios.post('/api/items', item);
 		dispatch(addTodoAction(post.data));

@@ -1,13 +1,13 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import propTypes from 'prop-types';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addAsyncTodoAction } from '../redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addAsyncTodoAction, getAsyncTodosAction } from '../redux';
 
 const AddTodo = () => {
 	const [title, setTitle] = useState();
 	const [content, setContent] = useState();
-
+	const stateTitle = useSelector(({ stateTitle }) => stateTitle);
 	const dispatch = useDispatch();
 
 	const handleTitleChange = (event) => {
@@ -18,9 +18,11 @@ const AddTodo = () => {
 	};
 
 	const handleSubmit = (event) => {
+		console.log(stateTitle);
 		event.preventDefault();
 		if (title !== '') {
-			dispatch(addAsyncTodoAction({ title, content }));
+			dispatch(addAsyncTodoAction({ title, content, stateTitle }));
+			dispatch(getAsyncTodosAction(stateTitle));
 		}
 		setTitle('');
 		setContent('');

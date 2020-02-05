@@ -1,17 +1,17 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable no-mixed-spaces-and-tabs */
 import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AddTodo from '../AddTodo/AddTodo';
-import { deleteAsyncTodoAction, getAsyncTodosAction, store } from '../redux';
+import { deleteAsyncTodoAction, getAsyncTodosAction } from '../redux';
 
 const Todos = () => {
 	const todos = useSelector(({ todos }) => todos);
+	const stateTitle = useSelector(({stateTitle}) => stateTitle);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		console.log(store);
-		dispatch(getAsyncTodosAction());
+		dispatch(getAsyncTodosAction(stateTitle));
 		return () => {};
 	},[]);
 	const todoList = todos.length? (
@@ -19,7 +19,7 @@ const Todos = () => {
 			<div className="collection-item" key={todo._id}>
 				<h6>Mission:</h6>
 				<samp>{todo.title}</samp>
-				<button onClick={() => dispatch(deleteAsyncTodoAction(todo))} className="btn waves-effect waves-light" style={{ float: 'right' }} type="submit" name="action">delete</button>
+				<button onClick={() => dispatch(deleteAsyncTodoAction(todo,stateTitle))} className="btn waves-effect waves-light" style={{ float: 'right' }} type="submit" name="action">delete</button>
 				<h6>Mission Report:</h6>
 				<code>{todo.content}</code>
 			</div>
@@ -37,4 +37,4 @@ const Todos = () => {
 	);
 };
 
-export default connect()(Todos);
+export default Todos;
