@@ -22,6 +22,8 @@ const Todos = () => {
 				<button onClick={() => dispatch(deleteAsyncTodoAction(todo,stateTitle))} className="btn waves-effect waves-light" style={{ float: 'right' }} type="submit" name="action">delete</button>
 				<h6>Mission Report:</h6>
 				<code>{todo.content}</code>
+				<h6>Date</h6>
+				<text>{todo.date}</text>
 			</div>
 		))
 	) : (

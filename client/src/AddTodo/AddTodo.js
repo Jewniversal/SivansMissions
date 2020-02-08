@@ -30,6 +30,7 @@ const AddTodo = () => {
 
 	return (
 		<div >
+			<br />
 			<form  onSubmit={handleSubmit} style={{flexDirection:'row', flex: 1, flexWrap: 'wrap'}}>
 				<label>Add new mission:</label>
 				<input  className="flow-text" type="text" onChange={handleTitleChange} value={title || ''}  />

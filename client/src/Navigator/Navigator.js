@@ -23,21 +23,23 @@ const Navigator = () => {
 		};
 	}, []);
 	const titles = useSelector(({ titles }) => titles);
-	const [title, setTitle] = useState('C');
+	const [title, setTitle] = useState();
 	const handleTitleChange = (event) => {
 		setTitle(event.target.value);
 	};
+	const classes = useStyles();
+
 	const dispatch = useDispatch();
 
 	const addTitle = (title) => {
 		console.log('title');
 		dispatch(addAsyncTitleAction(title));
+		setTitle('');
 	};
 	const onClickHandler = (title) => {
 		dispatch(changeStateTitle(title));
 		dispatch(getAsyncTodosAction(title));
 	};
-	const classes = useStyles();
 	const titleList = titles.length ? (
 		titles.map((title) => (
 			<div >
@@ -56,11 +58,12 @@ const Navigator = () => {
 			<h1 className="center blue-text">Missions</h1>
 			<form onSubmit={addTitle}>
 				<label>Enter title here</label>
-				<input onChange={handleTitleChange} type="text"/>
+				<input onChange={handleTitleChange} type="text" value={title || ''}/>
 			</form>
 			<button onClick={()=> addTitle(title)}className="btn waves-effect waves-light" type="submit" name="action">Add new Title</button>
 			<div className={classes.root}>
 				{titleList}
+				<br/>
 			</div>
 		</div>
 	);

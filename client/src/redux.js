@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 const initialState = {
 	todos: [],
 	titles: [],
-	stateTitle: 'C'
+	stateTitle: ''
 };
 const reducer = (state, action) => {
 	console.log(action.type);
@@ -126,7 +126,6 @@ export const addAsyncTitleAction = (category) => {
 	console.log('clicked');
 	return async (dispatch) => {
 		const post = await axios.post('api/items', { category });
-		console.log(post.data);
 		dispatch(addNewTitle(post.data));
 	};
 };

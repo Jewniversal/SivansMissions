@@ -20,6 +20,7 @@ const App = () => {
 		<Router>
 			<div className="todo=app container">
 				<Navigator />
+				<br/>
 				{titleList}
 			</div>
 		</Router>
