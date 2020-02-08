@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 
 const initialState = {
 	todos: [],
+	titles: [],
 	stateTitle: 'C'
 };
 const reducer = (state, action) => {
@@ -29,6 +30,16 @@ const reducer = (state, action) => {
 		return {
 			...state,
 			stateTitle: action.payload
+		};
+	case 'GET_CATEGORIES':
+		return {
+			...state,
+			titles: action.payload
+		};
+	case 'ADD_TITLE':
+		return {
+			...state,
+			titles: [...state.titles, action.payload]
 		};
 	default:
 		return state;
@@ -60,6 +71,18 @@ const deleteTodoAction = todo => {
 		payload: todo._id
 	};
 };
+const getCategoriesAction = categories => {
+	return {
+		type: 'GET_CATEGORIES',
+		payload: categories
+	};
+};
+export const addNewTitle = title => {
+	return {
+		type: 'ADD_TITLE',
+		payload: title
+	};
+};
 export const changeStateTitle = title => {
 	return {
 		type: 'CHANGE_TITLE',
@@ -73,6 +96,8 @@ export const getAsyncTodosAction = (collectionName) => {
 			collectionName: collectionName
 		};
 		const response = await axios.get('/api/items', { params: collection });
+		console.log('LOL');
+		console.log(response.data);
 		dispatch(getTodosAction(response.data));
 	} ;
 };
@@ -95,6 +120,27 @@ export const addAsyncTodoAction = (item) => {
 		dispatch(addTodoAction(post.data));
 	};
 };
+
+export const addAsyncTitleAction = (category) => {
+	console.log(category);
+	console.log('clicked');
+	return async (dispatch) => {
+		const post = await axios.post('api/items', { category });
+		console.log(post.data);
+		dispatch(addNewTitle(post.data));
+	};
+};
+
+export const getAyncCategories = () => {
+	return async (dispatch) => {
+		const categories = {
+			isCategories: true,
+		};
+		const response = await axios.get('/api/items', { params: categories });
+		dispatch(getCategoriesAction(response.data));
+	};
+};
+
 
 
 

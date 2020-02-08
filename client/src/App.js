@@ -1,22 +1,29 @@
+/* eslint-disable react/jsx-key */
 import React from 'react';
-import { Provider } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Navigator from './Navigator/Navigator';
-import { store } from './redux';
 import Todos from './Todos/Todos';
 
 const App = () => {
-
+	const titles = useSelector(({ titles }) => titles);
+	const titleList= titles.length ? (
+		titles.map((title)=> (
+			<div>
+				<Route path={`/${title}`} component={Todos} />
+			</div>
+		))
+	):(
+		<p className="center">Missing titles!</p>
+	);
 	return (
-		<Provider store={store}>
-			<Router>
-				<div className="todo=app container">
-					<Navigator />
-					<Route path="/react" component={Todos} />
-					<Route path="/C" component={Todos} />
-				</div>
-			</Router>
-		</Provider>
+		<Router>
+			<div className="todo=app container">
+				<Navigator />
+				{titleList}
+			</div>
+		</Router>
+
 	);
 };
 

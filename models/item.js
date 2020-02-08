@@ -18,4 +18,14 @@ const ItemSchema = new Schema({
 	}
 });
 
-module.exports = item = mongoose.model('item', ItemSchema);
+const CategoriesSchema = new Schema({
+  category: {
+    categoryTitle: String,
+    categoryTodo: [ItemSchema]
+  },
+},{ strict : false })
+
+module.exports = {
+  categoriesCollection: mongoose.model('categories', CategoriesSchema),
+  item: mongoose.model('item', ItemSchema)
+}
